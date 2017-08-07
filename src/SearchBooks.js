@@ -1,9 +1,9 @@
 import React from 'react'
-import * as BooksAPI from './BooksAPI'
 import './App.css'
 import { Link } from 'react-router-dom'
 import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
+import Book from './Book'
 
 class SearchBooks extends React.Component {
 	state = {
@@ -21,12 +21,11 @@ class SearchBooks extends React.Component {
 		let showingBooks
 		if (query) {
 			const match = new RegExp(escapeRegExp(query), 'i')
-			showingBooks = books.filter((book) => match.test(book.name))
+			showingBooks = books.filter((book) => match.test(book.title))
 		} else {
 			showingBooks = books
 		}
-
-		showingBooks.sort(sortBy('name'))
+		showingBooks.sort(sortBy('title'))
 		return (
 
 			<div className="search-books">
@@ -50,7 +49,16 @@ class SearchBooks extends React.Component {
 			    </div>
 			  </div>
 			  <div className="search-books-results">
+			  	{showingBooks.length !== books.length && (
+			  		<div className='showing-books'>
+			              <span>Now showing {showingBooks.length} of {books.length} total</span>
+
+			          </div>
+			  		)}
 			    <ol className="books-grid">
+			    	{showingBooks.map((book)=> (
+			    		<Book book={book}/>
+			    	))}
 
 			    </ol>
 			  </div>

@@ -14,6 +14,7 @@ class BooksApp extends React.Component {
   }
 
   render() {
+    const { contacts, onDeleteContact } = this.props
     return (
       <div className="app">
         <Route exact path="/" render={ () => (
