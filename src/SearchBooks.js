@@ -17,7 +17,7 @@ class SearchBooks extends React.Component {
 	}
 	render() {
 		const { query } = this.state
-		const { books } = this.props
+		const { books, changeStatus } = this.props
 		let showingBooks
 		if (query) {
 			const match = new RegExp(escapeRegExp(query), 'i')
@@ -57,7 +57,9 @@ class SearchBooks extends React.Component {
 			  		)}
 			    <ol className="books-grid">
 			    	{showingBooks.map((book)=> (
-			    		<Book book={book}/>
+			    		<li key={book.id} className="book-list-item">
+			    			<Book book={book} changeStatus={changeStatus.bind(this)}/>
+			    		</li>
 			    	))}
 
 			    </ol>
