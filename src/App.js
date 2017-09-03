@@ -7,7 +7,8 @@ import SearchBooks from './SearchBooks'
 
 class BooksApp extends React.Component {
   state = {
-    books: []
+    books: [],
+    searchBooks: []
   }
   updateBookShelf = (book, shelf) =>{
     //update state and to BooksAPI
@@ -43,7 +44,7 @@ class BooksApp extends React.Component {
 
           )}/>
         <Route exact path="/search" render={ () => (
-          <SearchBooks books={this.state.books} changeStatus={this.updateBookShelf.bind(this)}/>
+          <SearchBooks changeStatus={this.updateBookShelf.bind(this)}/>
         )}/>
       </div>
     )

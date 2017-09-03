@@ -1,31 +1,43 @@
 import React from 'react'
 import './App.css'
 import { Link } from 'react-router-dom'
-import escapeRegExp from 'escape-string-regexp'
+// import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
 import Book from './Book'
+import * as BooksAPI from './BooksAPI'
 
 class SearchBooks extends React.Component {
 	state = {
-		query: ''
+		query: ''	}
+
+	searchBooks = (query) => {
+		//search BooksAPI for new books to add
+		this.setState({ query: query.trim() })
+		BooksAPI.search(query.trim(),20)
+		.then( (books) => {
+		  this.setState({ newBooks: books })
+		})
 	}
 	clearQuery = () => {
 	  this.setState({ query: '' })
 	}
-	updateQuery = (query) => {
-		this.setState({ query: query.trim() })
-	}
 	render() {
 		const { query } = this.state
-		const { books, changeStatus } = this.props
-		let showingBooks
-		if (query) {
-			const match = new RegExp(escapeRegExp(query), 'i')
-			showingBooks = books.filter((book) => match.test(book.title))
-		} else {
-			showingBooks = books
+		const { changeStatus } = this.props
+		let { newBooks } = this.state
+		// let showingBooks
+		// if (query) {
+		// 	const match = new RegExp(escapeRegExp(query), 'i')
+		// 	// showingBooks = newBooks.filter((book) => match.test(book.title)) //and match by author
+		// 	showingBooks = this.searchBooks(query);
+		// }
+		// else {
+		// 	showingBooks = newBooks
+		// }
+		if (newBooks) {
+			newBooks.sort(sortBy('title'))
 		}
-		showingBooks.sort(sortBy('title'))
+
 		return (
 
 			<div className="search-books">
@@ -44,26 +56,22 @@ class SearchBooks extends React.Component {
 			      	<input
 			      		type="text"
 			      		value={query}
-			      		onChange={ (event) => this.updateQuery( event.target.value )}
+			      		onChange={ (event) => this.searchBooks( event.target.value )}
 			      		placeholder="Search by title or author"/>
 			    </div>
 			  </div>
 			  <div className="search-books-results">
-			  	{showingBooks.length !== books.length && (
-			  		<div className='showing-books'>
-			              <span>Now showing {showingBooks.length} of {books.length} total</span>
 
-			          </div>
-			  		)}
-			    <ol className="books-grid">
-			    	{showingBooks.map((book)=> (
-			    		<li key={book.id} className="book-list-item">
-			    			<Book book={book} changeStatus={changeStatus.bind(this)}/>
-			    		</li>
-			    	))}
+			      <ol className="books-grid">
+			      	{ newBooks && newBooks.map((book)=> (
+					  		<li key={book.id} className="book-list-item">
+					  			<Book book={book} changeStatus={changeStatus}/>
+					  		</li>
+					  	))
+			    	}
 
-			    </ol>
-			  </div>
+			      </ol>
+			    </div>
 			</div>
 		)
 
