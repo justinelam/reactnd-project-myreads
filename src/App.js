@@ -9,6 +9,18 @@ class BooksApp extends React.Component {
   state = {
     books: [],
   }
+  getBookShelf = (bookID) =>{
+    let myLibraryBooks = this.state.books
+    let book = myLibraryBooks.find((aBook)=> {
+          return aBook.id === bookID
+         })
+    if (book) {
+      return book.shelf
+    } else {
+      return "none"
+    }
+
+  }
   updateBookShelf = (book, shelf) =>{
     //update state and BooksAPI
     let myLibraryBooks = this.state.books
@@ -47,11 +59,11 @@ class BooksApp extends React.Component {
       <div className="app">
         <Route exact path="/" render={ () => (
           <BookShelf
-            books={this.state.books} changeStatus={this.updateBookShelf}/>
+            books={this.state.books} changeStatus={this.updateBookShelf} getBookShelf={this.getBookShelf}/>
 
           )}/>
         <Route exact path="/search" render={ () => (
-          <SearchBooks changeStatus={this.updateBookShelf}/>
+          <SearchBooks myLibrary={this.state.books} changeStatus={this.updateBookShelf} getBookShelf={this.getBookShelf} />
         )}/>
       </div>
     )

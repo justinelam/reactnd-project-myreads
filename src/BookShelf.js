@@ -7,10 +7,11 @@ import Book from './Book'
 class BookShelf extends Component {
 	static propTypes = {
 		books: PropTypes.array.isRequired,
-		changeStatus: PropTypes.func.isRequired
+		changeStatus: PropTypes.func.isRequired,
+		getBookShelf: PropTypes.func.isRequired
 	};
 	render() {
-		const { books, changeStatus } = this.props
+		const { books, changeStatus, getBookShelf } = this.props
 		return(
 			<div className="list-books">
 			  <div className="list-books-title">
@@ -24,7 +25,7 @@ class BookShelf extends Component {
 			          <ol className="books-grid">
 			          {books.filter((book)=> book.shelf === "currentlyReading").map((book)=> (
 			            <li key={book.id} className="book-list-item">
-			              <Book book={book} changeStatus={changeStatus}/>
+			              <Book book={book} changeStatus={changeStatus} getBookShelf={getBookShelf}/>
 			            </li>
 			           ))}
 			          </ol>
@@ -37,7 +38,7 @@ class BookShelf extends Component {
 
 			          {books.filter((book)=> book.shelf === "wantToRead").map((book)=> (
 			          	<li key={book.id} className="book-list-item">
-			          		<Book book={book} changeStatus={changeStatus}/>
+			          		<Book book={book} changeStatus={changeStatus} getBookShelf={getBookShelf}/>
 			          	</li>
 			            ))}
 			          </ol>
@@ -49,7 +50,7 @@ class BookShelf extends Component {
 			          <ol className="books-grid">
 			            {books.filter((book)=> book.shelf === "read").map((book)=> (
 			          	<li key={book.id} className="book-list-item">
-							<Book book={book} changeStatus={changeStatus}/>
+							<Book book={book} changeStatus={changeStatus} getBookShelf={getBookShelf}/>
 						</li>
 			            ))}
 			          </ol>
