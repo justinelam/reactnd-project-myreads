@@ -9,18 +9,6 @@ class Book extends Component {
 		changeStatus: PropTypes.func.isRequired,
 		getBookShelf: PropTypes.func.isRequired
 	};
-	state = {
-		shelf: 'none'
-	}
-	componentDidMount() {
-		const { book, getBookShelf } = this.props
-		let shelf = getBookShelf(book.id)
-	  	if (shelf === undefined || shelf === "none") {
-			this.setState({ shelf: "none"})
-		} else {
-			this.setState({ shelf: shelf})
-		}
-	}
 	render() {
 		const { book, changeStatus, getBookShelf } = this.props
 		let shelf = getBookShelf(book.id)
