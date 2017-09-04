@@ -11,30 +11,29 @@ class BooksApp extends React.Component {
   }
   updateBookShelf = (book, shelf) =>{
     //update state and BooksAPI
-    let currentBooks = this.state.books
+    let myLibraryBooks = this.state.books
     BooksAPI.update(book, shelf).then((shelves) => {
-      //TODO: Check if there was no error (how do I do that?)
-      let index
-      let booksOnShelf = shelves[shelf]  //array of book id's in shelf being updated
-      //TODO: Refactor this code, there must be a better way of finding the index of the book
-      for ( let bookID of booksOnShelf) {
-        for ( let i of currentBooks){
-          //find the book based on matching id's
-          if (i.id === bookID) {
-          //get current index of book in App props
-           index = currentBooks.findIndex((elem)=> {
-            return elem.id === bookID
+      //find the book being modified in my library if it exists
+      let modifiedBook = myLibraryBooks.find((aBook)=> {
+            return aBook.id === book.id
            })
-            break
-          }
-        }
+      if (!modifiedBook){
+        // if book isn't in my library already append with the new shelf
+        book.shelf = shelf
+        myLibraryBooks.push(book)
+      } else {
+       //Update modifiedBook so that the book in question has its shelf updated.
+        modifiedBook.shelf = shelf
       }
-      //Update state so that the book in question has its shelf updated.
-      currentBooks[index].shelf = shelf
+      //update state of myLibraryBooks
       this.setState( (state) => ({
-        books: currentBooks
+        books: myLibraryBooks
         })
       )
+
+    }).catch((error) => {
+      //catch any errors in console
+      console.error(error)
     })
   }
   componentDidMount() {

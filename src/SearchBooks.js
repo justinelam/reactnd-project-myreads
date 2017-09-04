@@ -10,31 +10,31 @@ class SearchBooks extends React.Component {
 		query: '',
 		newBooks: []
 	}
-
 	searchBooks = (query) => {
 		//search BooksAPI for new books to add
 		this.setState({ query: query.trim() })
 		BooksAPI.search(query.trim(),20)
 		.then( (books) => {
-		  this.setState({ newBooks: books })
+
+			if (!books || books.error) {
+				//if no books and error then show error in console and don't show any books as results
+				console.error(books.error)
+				this.setState({ newBooks: [] })
+
+			} else {
+				//set state if books are available with search term
+				//sort found books by title before displaying
+				books.sort(sortBy('title'))
+		  		this.setState({ newBooks: books })
+			}
 		})
-		console.log(typeof(books))
 	}
 	clearQuery = () => {
 	  this.setState({ query: '' })
 	}
 	render() {
-		const { query } = this.state
+		const { query,newBooks } = this.state
 		const { changeStatus } = this.props
-		let newBooks
-		//sort found books by title
-		//TODO: Allow user to determine how to sort books (author, title)
-		if (query) {
-			newBooks = this.state
-			newBooks.sort(sortBy('title'))
-		} else {
-			newBooks = []
-		}
 		return (
 
 			<div className="search-books">
