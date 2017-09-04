@@ -12,6 +12,10 @@ class Book extends Component {
 	render() {
 		const { book, changeStatus, getBookShelf } = this.props
 		let shelf = getBookShelf(book.id)
+		if (!book.imageLinks) {
+			//if no image links show a "no image availabe"
+			book.imageLinks.thumbnail = './icons/No-image-available.svg'
+		}
 		return(
 			<div className="book">
 			  <div className="book-top">
