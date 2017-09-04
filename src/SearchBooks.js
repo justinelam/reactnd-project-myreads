@@ -11,7 +11,6 @@ class SearchBooks extends React.Component {
 		newBooks: []
 	}
 	searchBooks = (query) => {
-
 		//search BooksAPI for new books to add
 		this.setState({ query: query.trim() })
 		BooksAPI.search(query.trim(),20)
