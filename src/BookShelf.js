@@ -55,19 +55,6 @@ class BookShelf extends Component {
 			          </ol>
 			        </div>
 			      </div>
-
-		            <div className="bookshelf">
-		              <h2 className="bookshelf-title">None</h2>
-		              <div className="bookshelf-books">
-		                <ol className="books-grid">
-		                  {books.filter((book)=> book.shelf === "").map((book)=> (
-		                	<li key={book.id} className="book-list-item">
-		      				<Book book={book} changeStatus={changeStatus}/>
-		      			</li>
-		                  ))}
-		                </ol>
-		              </div>
-		            </div>
 			    </div>
 			  </div>
 			  <div className="open-search">

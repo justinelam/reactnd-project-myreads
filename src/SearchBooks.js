@@ -1,14 +1,15 @@
 import React from 'react'
 import './App.css'
 import { Link } from 'react-router-dom'
-// import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
 import Book from './Book'
 import * as BooksAPI from './BooksAPI'
 
 class SearchBooks extends React.Component {
 	state = {
-		query: ''	}
+		query: '',
+		newBooks: []
+	}
 
 	searchBooks = (query) => {
 		//search BooksAPI for new books to add
@@ -17,6 +18,7 @@ class SearchBooks extends React.Component {
 		.then( (books) => {
 		  this.setState({ newBooks: books })
 		})
+		console.log(typeof(books))
 	}
 	clearQuery = () => {
 	  this.setState({ query: '' })
@@ -24,20 +26,15 @@ class SearchBooks extends React.Component {
 	render() {
 		const { query } = this.state
 		const { changeStatus } = this.props
-		let { newBooks } = this.state
-		// let showingBooks
-		// if (query) {
-		// 	const match = new RegExp(escapeRegExp(query), 'i')
-		// 	// showingBooks = newBooks.filter((book) => match.test(book.title)) //and match by author
-		// 	showingBooks = this.searchBooks(query);
-		// }
-		// else {
-		// 	showingBooks = newBooks
-		// }
-		if (newBooks) {
+		let newBooks
+		//sort found books by title
+		//TODO: Allow user to determine how to sort books (author, title)
+		if (query) {
+			newBooks = this.state
 			newBooks.sort(sortBy('title'))
+		} else {
+			newBooks = []
 		}
-
 		return (
 
 			<div className="search-books">
