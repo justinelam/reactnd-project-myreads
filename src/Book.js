@@ -14,6 +14,7 @@ class Book extends Component {
 		let shelf = getBookShelf(book.id)
 		if (!book.imageLinks) {
 			//if no image links show a "no image availabe"
+			book.imageLinks = {}
 			book.imageLinks.thumbnail = './icons/No-image-available.svg'
 		}
 		return(
