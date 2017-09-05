@@ -15,7 +15,7 @@ class Book extends Component {
 		if (!book.imageLinks) {
 			//if no image links show a "no image availabe"
 			book.imageLinks = {}
-			book.imageLinks.thumbnail = './icons/No-image-available.svg'
+			book.imageLinks.thumbnail = '/static/media/No_image_available.67edcff8.svg'
 		}
 		return(
 			<div className="book">
