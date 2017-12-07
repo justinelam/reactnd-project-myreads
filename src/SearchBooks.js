@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import sortBy from 'sort-by'
 import Book from './Book'
 import * as BooksAPI from './BooksAPI'
+import BookResults from './BookResults'
 
 class SearchBooks extends React.Component {
 	state = {
@@ -12,7 +13,7 @@ class SearchBooks extends React.Component {
 	}
 	searchBooks = (query) => {
 		//search BooksAPI for new books to add
-		this.setState({ query: query.trim() })
+		this.setState({ query: query })
 		BooksAPI.search(query.trim(),20)
 		.then( (books) => {
 			let { myLibrary, getBookShelf } = this.props
@@ -70,18 +71,8 @@ class SearchBooks extends React.Component {
 			      		placeholder="Search by title or author"/>
 			    </div>
 			  </div>
-			  <div className="search-books-results">
+			  <BookResults newBooks={newBooks} changeStatus={changeStatus} getBookShelf={getBookShelf} ></BookResults>
 
-			      <ol className="books-grid">
-			      	{ newBooks && newBooks.map((book)=> (
-					  		<li key={book.id} className="book-list-item">
-					  			<Book book={book} changeStatus={changeStatus} getBookShelf={getBookShelf}/>
-					  		</li>
-					  	))
-			    	}
-
-			      </ol>
-			    </div>
 			</div>
 		)
 
